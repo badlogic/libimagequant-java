@@ -1,0 +1,9 @@
+output.gif
+target/
+.classpath
+.idea/
+.project
+.settings/
+cmake-build-debug/
+.DS_STORE
+src/main/resources

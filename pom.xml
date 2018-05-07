@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>5</version>
+	</parent>
+
+	<groupId>com.badlogicgames</groupId>
+	<artifactId>libimagequant-java</artifactId>
+	<version>1.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>libimagequant-java</name>
+	<url>https://github.com/badlogic/libimagequant-java</url>
+
+	<issueManagement>
+		<url>https://github.com/badlogic/libimagequant-java/issues</url>
+	</issueManagement>
+
+	<licenses>
+		<license>
+			<name>AGPL 3.0</name>
+			<url>https://opensource.org/licenses/AGPL-3.0</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.7</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<additionalparam>-Xdoclint:none</additionalparam>
+	</properties>
+
+	<scm>
+		<connection>scm:git:https://github.com/badlogic/libimagequant-java.git</connection>
+		<developerConnection>scm:git:https://github.com/badlogic/libimagequant-java.git</developerConnection>
+		<url>https://github.com/badlogic/libimagequant-java.git</url>
+	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.googlecode.maven-download-plugin</groupId>
+				<artifactId>download-maven-plugin</artifactId>
+				<version>1.4.0</version>
+				<executions>
+					<execution>
+						<id>install-binaries</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>wget</goal>
+						</goals>
+						<configuration>
+							<url>https://libgdx.badlogicgames.com/ci/libimagequant-java/binaries/libimagequant-java-binaries.tar.gz</url>
+							<skipCache>true</skipCache>
+							<unpack>true</unpack>
+							<outputDirectory>src/main/resources</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
