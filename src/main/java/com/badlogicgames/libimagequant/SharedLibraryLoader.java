@@ -20,7 +20,7 @@ import java.util.zip.ZipFile;
  * @author mzechner
  * @author Nathan Sweet */
 public class SharedLibraryLoader {
-	private static String STORAGE_PATH = "gifski-java";
+	private static String STORAGE_PATH = "libimagequant-java";
 	static public boolean isWindows = System.getProperty("os.name").contains("Windows");
 	static public boolean isLinux = System.getProperty("os.name").contains("Linux");
 	static public boolean isMac = System.getProperty("os.name").contains("Mac");
