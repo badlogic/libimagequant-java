@@ -24,13 +24,13 @@ public class LiqHistogram extends NativeObject {
 
 	/** Adds the colors with their respective counts to this histogram. */
 	public void addColors (LiqHistogramEntry[] entries, double gamma) {
-		for (LiqHistogramEntry entry: entries) {
+		for (LiqHistogramEntry entry : entries) {
 			int code = _addColor(getPointer(), attribute.getPointer(), entry.r, entry.g, entry.b, entry.a, entry.count, gamma);
 			LiqError.onError("Couldn't add colors: ", code);
 		}
 	}
 
-	public LiqResult quantize() {
+	public LiqResult quantize () {
 		long[] pointer = new long[1];
 		int code = _quantize(getPointer(), attribute.getPointer(), pointer);
 		LiqError.onError("Couldn't quantize histogram", code);

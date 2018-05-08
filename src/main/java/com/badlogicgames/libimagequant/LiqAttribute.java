@@ -2,7 +2,6 @@
 package com.badlogicgames.libimagequant;
 
 public class LiqAttribute extends NativeObject {
-
 	/** Creates a new {@link LiqAttribute}. Throws an {@link IllegalStateException} in case the native memory couldn't be
 	 * allocated. */
 	public LiqAttribute () {
@@ -15,6 +14,7 @@ public class LiqAttribute extends NativeObject {
 		super(_copy(original.getPointer()));
 	}
 
+	/** @param colors 2-256. */
 	public void setMaxColors (int colors) {
 		int code = _setMaxColors(getPointer(), colors);
 		LiqError.onError("Couldn't set max colors", code);
@@ -24,6 +24,8 @@ public class LiqAttribute extends NativeObject {
 		return _getMaxColors(getPointer());
 	}
 
+	/** @param speed 1-10 where 1 is the higest quality but only marginally better than 3, default is 3, and 10 has typically 5%
+	 *           lower quality than 3 but is 8 times faster. */
 	public void setSpeed (int speed) {
 		int code = _setSpeed(getPointer(), speed);
 		LiqError.onError("Couldn't set speed", code);
@@ -33,6 +35,7 @@ public class LiqAttribute extends NativeObject {
 		return _getSpeed(getPointer());
 	}
 
+	/** @param min 0-255. */
 	public void setMinOpacity (int min) {
 		int code = _setMinOpacity(getPointer(), min);
 		LiqError.onError("Couldn't set min. opacity", code);
@@ -42,6 +45,7 @@ public class LiqAttribute extends NativeObject {
 		return _getMinOpacity(getPointer());
 	}
 
+	/** @param min 0-4 where 0 if full quality, 2 is for VGA or 16-bit RGB565, and 4 is for RGB444. */
 	public void setMinPosterization (int min) {
 		int code = _setMinPosterization(getPointer(), min);
 		LiqError.onError("Couldn't set min. posterization", code);
@@ -51,6 +55,8 @@ public class LiqAttribute extends NativeObject {
 		return _getMinPosterization(getPointer());
 	}
 
+	/** @param minQuality 0-100.
+	 * @param maxQuality 0-100. */
 	public void setQuality (int minQuality, int maxQuality) {
 		int code = _setQuality(getPointer(), minQuality, maxQuality);
 		LiqError.onError("Couldn't set quality", code);

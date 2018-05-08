@@ -8,37 +8,27 @@ public class LiqImage extends NativeObject {
 	private final LiqAttribute attribute;
 	private final ByteBuffer pixels;
 
-	/**
-	 * Creates a new {@link LiqImage} from the given bitmap. The bitmap is copied to
-	 * a new native memory area and managed by this instance.
-	 */
+	/** Creates a new {@link LiqImage} from the given bitmap. The bitmap is copied to a new native memory area and managed by this
+	 * instance. */
 	protected LiqImage (LiqAttribute attribute, byte[] bitmap, int width, int height, double gamma) {
-		super(_createRgba(attribute.getPointer(), bitmap, width, height, gamma));
+		super(createRgba(attribute.getPointer(), bitmap, width, height, gamma));
 		this.attribute = attribute;
 		this.pixels = _byteBufferFromPointer(_getJniImageData(super.getPointer()), width * height * 4);
 		this.pixels.order(ByteOrder.nativeOrder());
 	}
 
-	/**
-	 * Creates a new {@link LiqImage} from the given ByteBuffer. The ByteBuffer must be a direct
-	 * buffer and remain valid until this LiqImage is destroyed or collected. No copying of the
-	 * data of the buffer is performed. The position and limit of the buffer are ignored.
-	 */
+	/** Creates a new {@link LiqImage} from the given ByteBuffer. The ByteBuffer must be a direct buffer and remain valid until
+	 * this LiqImage is destroyed or collected. No copying of the data of the buffer is performed. The position and limit of the
+	 * buffer are ignored. */
 	protected LiqImage (LiqAttribute attribute, ByteBuffer bitmap, int width, int height, double gamma) {
-		super(_createRgba(attribute.getPointer(), bitmap, width, height, gamma));
-		if (bitmap.capacity() < width * height * 4) {
-			destroy();
-			throw new IllegalStateException("The buffer must have a capacity >= width * height * 4");
-		}
+		super(createRgba(attribute.getPointer(), bitmap, width, height, gamma));
 		this.attribute = attribute;
 		this.pixels = bitmap;
 		this.pixels.order(ByteOrder.nativeOrder());
 	}
 
-	/**
-	 * @return the {@link LiqAttribute} this image was created from
-	 */
-	public LiqAttribute getAttribute() {
+	/** @return the {@link LiqAttribute} this image was created from */
+	public LiqAttribute getAttribute () {
 		return attribute;
 	}
 
@@ -47,9 +37,7 @@ public class LiqImage extends NativeObject {
 		return _getJniImageLiqImage(super.getPointer());
 	}
 
-	/**
-	 * @return a {@link ByteBuffer} wrapping the native memory area holding the pixel data.
-	 */
+	/** @return a {@link ByteBuffer} wrapping the native memory area holding the pixel data. */
 	public ByteBuffer getPixels () {
 		return pixels;
 	}
@@ -59,9 +47,7 @@ public class LiqImage extends NativeObject {
 		LiqError.onError("Couldn't set background", code);
 	}
 
-	/**
-	 * Sets the importance map. The pixels in the buffer are copied.
-	 */
+	/** Sets the importance map. The pixels in the buffer are copied. */
 	public void setImportanceMap (byte[] buffer) {
 		int code = _setImportanceMap(getPointer(), buffer, buffer.length);
 		LiqError.onError("Couldn't set importance map", code);
@@ -89,16 +75,28 @@ public class LiqImage extends NativeObject {
 		return _getHeight(getPointer());
 	}
 
-	public LiqResult quantize() {
+	public LiqResult quantize () {
 		long[] pointer = new long[1];
 		int code = _quantize(getPointer(), attribute.getPointer(), pointer);
 		LiqError.onError("Couldn't quantize image ", code);
 		return new LiqResult(pointer[0]);
 	}
 
-	public void remap(LiqResult result, byte[] output) {
+	public void remap (LiqResult result, byte[] output) {
 		int code = _remap(result.getPointer(), getPointer(), output, output.length);
 		LiqError.onError("Couldn't remap image", code);
+	}
+
+	private static long createRgba (long attribute, byte[] bitmap, int width, int height, double gamma) {
+		if (bitmap.length < width * height * 4) throw new IllegalStateException(
+			"The buffer must have a capacity >= " + width + " * " + height + " * 4: " + bitmap.length);
+		return _createRgba(attribute, bitmap, width, height, gamma);
+	}
+
+	private static long createRgba (long attribute, ByteBuffer bitmap, int width, int height, double gamma) {
+		if (bitmap.capacity() < width * height * 4) throw new IllegalStateException(
+			"The buffer must have a capacity >= " + width + " * " + height + " * 4: " + bitmap.capacity());
+		return _createRgba(attribute, bitmap, width, height, gamma);
 	}
 
 	//@off

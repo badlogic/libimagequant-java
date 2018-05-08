@@ -12,7 +12,7 @@ public enum LiqError {
 	INVALID_POINTER(105),
 	UNSUPPORTED(106);
 
-	private static LiqError[] values = LiqError.values();
+	private static final LiqError[] values = LiqError.values();
 	private final int code;
 
 	LiqError (int code) {

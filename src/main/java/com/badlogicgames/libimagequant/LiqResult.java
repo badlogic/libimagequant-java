@@ -1,3 +1,4 @@
+
 package com.badlogicgames.libimagequant;
 
 public class LiqResult extends NativeObject {
@@ -6,11 +7,13 @@ public class LiqResult extends NativeObject {
 		super(ptr);
 	}
 
+	/** @param ditherLevel 0-1. */
 	public void setDitheringLevel (float ditherLevel) {
 		int code = _setDitheringLevel(getPointer(), ditherLevel);
 		LiqError.onError("Couldn't set dithering level", code);
 	}
 
+	/** @param gamma > 0 and < 1. */
 	public void setOutputGamma (double gamma) {
 		int code = _setOutputGamma(getPointer(), gamma);
 		LiqError.onError("Couldn't set output gamma", code);
