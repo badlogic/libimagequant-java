@@ -9,7 +9,8 @@ import javax.imageio.ImageIO;
 
 public class LibImageQuantTest {
 	public static void main (String[] args) throws IOException {
-		new SharedLibraryLoader().load("imagequant-java");
+		//new SharedLibraryLoader().load("imagequant-java");
+		System.loadLibrary("imagequant-java");
 
 		// Read the input image
 		BufferedImage input = ImageIO.read(LibImageQuantTest.class.getResourceAsStream("/input.png"));
