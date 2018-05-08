@@ -9,6 +9,102 @@ extern "C" {
 #endif
 /*
  * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _setLastIndexTransparent
+ * Signature: (JZ)V
+ */
+JNIEXPORT void JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1setLastIndexTransparent
+  (JNIEnv *, jclass, jlong, jboolean);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _setQuality
+ * Signature: (JII)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1setQuality
+  (JNIEnv *, jclass, jlong, jint, jint);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _getMinQuality
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1getMinQuality
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _getMaxQuality
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1getMaxQuality
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _setMinPosterization
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1setMinPosterization
+  (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _getMinPosterization
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1getMinPosterization
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _setMinOpacity
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1setMinOpacity
+  (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _getMinOpacity
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1getMinOpacity
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _setSpeed
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1setSpeed
+  (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _getSpeed
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1getSpeed
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _setMaxColors
+ * Signature: (JI)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1setMaxColors
+  (JNIEnv *, jclass, jlong, jint);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
+ * Method:    _getMaxColors
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqAttribute__1getMaxColors
+  (JNIEnv *, jclass, jlong);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqAttribute
  * Method:    _create
  * Signature: ()J
  */
