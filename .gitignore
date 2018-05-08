@@ -1,4 +1,5 @@
 output.png
+bin/
 target/
 .classpath
 .idea/

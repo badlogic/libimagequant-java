@@ -141,10 +141,13 @@ static inline jlong wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1crea
 
 		void* bitmapCopy = malloc(width * height * 4);
 		if (!bitmapCopy) return 0;
-		memcpy(bitmap, bitmapCopy, width * height * 4);
+		memcpy(bitmapCopy, bitmap, width * height * 4);
 
 		liq_image* image = liq_image_create_rgba((liq_attr*)attribute, (const void*)bitmapCopy, width, height, gamma);
-		if (!image) return 0;
+		if (!image) {
+			free(bitmapCopy);
+			return 0;
+		}
 
 		liq_jni_image* jniImage = (liq_jni_image*)malloc(sizeof(liq_jni_image));
 		if (!jniImage) {
@@ -170,7 +173,7 @@ JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1createRg
 static inline jlong wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1createRgba__JLjava_nio_ByteBuffer_2IID
 (JNIEnv* env, jclass clazz, jlong attribute, jobject obj_bitmap, jint width, jint height, jdouble gamma, char* bitmap) {
 
-//@line:175
+//@line:178
 
 		liq_image* image = liq_image_create_rgba((liq_attr*)attribute, (const void*)bitmap, width, height, gamma);
 		if (!image) return 0;
@@ -198,7 +201,7 @@ JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1createRg
 JNIEXPORT jobject JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1byteBufferFromPointer(JNIEnv* env, jclass clazz, jlong ptr, jint numBytes) {
 
 
-//@line:189
+//@line:192
 
 		return env->NewDirectByteBuffer((char*)ptr, numBytes);
 	
@@ -208,7 +211,7 @@ JNIEXPORT jobject JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1byteBu
 JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getJniImageLiqImage(JNIEnv* env, jclass clazz, jlong jniImage) {
 
 
-//@line:193
+//@line:196
 
 		return (jlong)((liq_jni_image*)jniImage)->image;
 	
@@ -218,7 +221,7 @@ JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getJniIm
 JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getJniImageData(JNIEnv* env, jclass clazz, jlong jniImage) {
 
 
-//@line:197
+//@line:200
 
 		return (jlong)((liq_jni_image*)jniImage)->data;
 	
@@ -228,7 +231,7 @@ JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getJniIm
 JNIEXPORT void JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1destroy(JNIEnv* env, jclass clazz, jlong image) {
 
 
-//@line:201
+//@line:204
 
 		liq_jni_image* jniImage = (liq_jni_image*)image;
 		liq_image_destroy(jniImage->image);

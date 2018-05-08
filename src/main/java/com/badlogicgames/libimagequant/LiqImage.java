@@ -157,10 +157,13 @@ public class LiqImage extends NativeObject {
 	private static native long _createRgba (long attribute, byte[] bitmap, int width, int height, double gamma); /*
 		void* bitmapCopy = malloc(width * height * 4);
 		if (!bitmapCopy) return 0;
-		memcpy(bitmap, bitmapCopy, width * height * 4);
+		memcpy(bitmapCopy, bitmap, width * height * 4);
 
 		liq_image* image = liq_image_create_rgba((liq_attr*)attribute, (const void*)bitmapCopy, width, height, gamma);
-		if (!image) return 0;
+		if (!image) {
+			free(bitmapCopy);
+			return 0;
+		}
 
 		liq_jni_image* jniImage = (liq_jni_image*)malloc(sizeof(liq_jni_image));
 		if (!jniImage) {
