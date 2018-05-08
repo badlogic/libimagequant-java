@@ -10,9 +10,9 @@ CC_FLAGS="-c -Wall -msse -mfpmath=sse -DNDEBUG -DUSE_SSE=1 -Wno-unknown-pragmas 
 CXX=g++
 CXX_FLAGS="-c -Wall -msse -mfpmath=sse -DNDEBUG -DUSE_SSE=1 -Wno-unknown-pragmas -fno-math-errno -funroll-loops -fomit-frame-pointer"
 
-HEADERS="-I./ -Ijni-headers -Ijni-headers/${JNI_MD} -Ilibimagequant/"
+HEADERS="-Isrc -Ijni-headers -Ilibimagequant/"
 CC_SOURCES="libimagequant/blur.c libimagequant/kmeans.c libimagequant/libimagequant.c libimagequant/mediancut.c libimagequant/mempool.c libimagequant/nearest.c libimagequant/pam.c"
-CXX_SOURCES=""
+CXX_SOURCES=`find src -name *.cpp`
 
 STRIP=strip
 
@@ -21,7 +21,7 @@ LIBRARIES="-L$BUILD_DIR -lm"
 
 OUTPUT_DIR="../src/main/resources/"
 OUTPUT_PREFIX="lib"
-OUTPUT_NAME="libimagequant-java"
+OUTPUT_NAME="imagequant-java"
 OUTPUT_SUFFIX=".so"
 
 function usage {
@@ -113,6 +113,8 @@ if [ "x$TARGET" != 'x' ]; then
         CXX_FLAGS="$CXX_FLAGS -O2"
     fi
 fi
+
+HEADERS="$HEADERS -Ijni-headers/${JNI_MD}"
 
 rm -rf $BUILD_DIR
 mkdir -p $BUILD_DIR
