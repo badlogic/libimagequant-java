@@ -1,6 +1,6 @@
 #include <com.badlogicgames.libimagequant.LiqImage.h>
 
-//@line:90
+//@line:105
 
 	#include <libimagequant.h>
 	#include <stdlib.h>
@@ -10,10 +10,51 @@
 		liq_image *image;
 		void *data;
 	} liq_jni_image;
-	 JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getWidth(JNIEnv* env, jclass clazz, jlong image) {
+	 static inline jint wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1remap
+(JNIEnv* env, jclass clazz, jlong result, jlong image, jbyteArray obj_buffer, jint bufferSize, char* buffer) {
+
+//@line:116
+
+		return liq_write_remapped_image((liq_result*)result, (liq_image*)image, buffer, bufferSize);
+	
+}
+
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1remap(JNIEnv* env, jclass clazz, jlong result, jlong image, jbyteArray obj_buffer, jint bufferSize) {
+	char* buffer = (char*)env->GetPrimitiveArrayCritical(obj_buffer, 0);
+
+	jint JNI_returnValue = wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1remap(env, clazz, result, image, obj_buffer, bufferSize, buffer);
+
+	env->ReleasePrimitiveArrayCritical(obj_buffer, buffer, 0);
+
+	return JNI_returnValue;
+}
+
+static inline jint wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1quantize
+(JNIEnv* env, jclass clazz, jlong image, jlong attr, jlongArray obj_pointer, long long* pointer) {
+
+//@line:120
+
+		liq_result *result = 0;
+		int code = liq_image_quantize((liq_image*)image, (liq_attr*)attr, &result);
+		pointer[0] = (jlong)result;
+		return code;
+	
+}
+
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1quantize(JNIEnv* env, jclass clazz, jlong image, jlong attr, jlongArray obj_pointer) {
+	long long* pointer = (long long*)env->GetPrimitiveArrayCritical(obj_pointer, 0);
+
+	jint JNI_returnValue = wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1quantize(env, clazz, image, attr, obj_pointer, pointer);
+
+	env->ReleasePrimitiveArrayCritical(obj_pointer, pointer, 0);
+
+	return JNI_returnValue;
+}
+
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getWidth(JNIEnv* env, jclass clazz, jlong image) {
 
 
-//@line:101
+//@line:127
 
 		return liq_image_get_width((liq_image*)image);
 	
@@ -23,7 +64,7 @@
 JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getHeight(JNIEnv* env, jclass clazz, jlong image) {
 
 
-//@line:105
+//@line:131
 
 		return liq_image_get_height((liq_image*)image);
 	
@@ -33,7 +74,7 @@ JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getHeight
 JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1addFixedColor(JNIEnv* env, jclass clazz, jlong image, jbyte r, jbyte g, jbyte b, jbyte a) {
 
 
-//@line:109
+//@line:135
 
 		liq_color color;
 		color.r = (unsigned char)r;
@@ -46,21 +87,39 @@ JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1addFixedC
 
 }
 
-static inline jint wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap
+static inline jint wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap__J_3BI
 (JNIEnv* env, jclass clazz, jlong image, jbyteArray obj_buffer, jint bufferSize, char* buffer) {
 
-//@line:119
+//@line:145
 
 		return liq_image_set_importance_map((liq_image*)image, (unsigned char*)buffer, bufferSize, LIQ_COPY_PIXELS);
 	
 }
 
-JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap(JNIEnv* env, jclass clazz, jlong image, jbyteArray obj_buffer, jint bufferSize) {
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap__J_3BI(JNIEnv* env, jclass clazz, jlong image, jbyteArray obj_buffer, jint bufferSize) {
 	char* buffer = (char*)env->GetPrimitiveArrayCritical(obj_buffer, 0);
 
-	jint JNI_returnValue = wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap(env, clazz, image, obj_buffer, bufferSize, buffer);
+	jint JNI_returnValue = wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap__J_3BI(env, clazz, image, obj_buffer, bufferSize, buffer);
 
 	env->ReleasePrimitiveArrayCritical(obj_buffer, buffer, 0);
+
+	return JNI_returnValue;
+}
+
+static inline jint wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap__JLjava_nio_ByteBuffer_2I
+(JNIEnv* env, jclass clazz, jlong image, jobject obj_buffer, jint bufferSize, char* buffer) {
+
+//@line:149
+
+		return liq_image_set_importance_map((liq_image*)image, (unsigned char*)buffer, bufferSize, LIQ_OWN_PIXELS);
+	
+}
+
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap__JLjava_nio_ByteBuffer_2I(JNIEnv* env, jclass clazz, jlong image, jobject obj_buffer, jint bufferSize) {
+	char* buffer = (char*)(obj_buffer?env->GetDirectBufferAddress(obj_buffer):0);
+
+	jint JNI_returnValue = wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap__JLjava_nio_ByteBuffer_2I(env, clazz, image, obj_buffer, bufferSize, buffer);
+
 
 	return JNI_returnValue;
 }
@@ -68,7 +127,7 @@ JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setImport
 JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setBackgroundImage(JNIEnv* env, jclass clazz, jlong image, jlong background) {
 
 
-//@line:123
+//@line:153
 
 		return (jint)liq_image_set_background((liq_image*)image, (liq_image*)background);
 	
@@ -78,7 +137,7 @@ JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setBackgr
 static inline jlong wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1createRgba__J_3BIID
 (JNIEnv* env, jclass clazz, jlong attribute, jbyteArray obj_bitmap, jint width, jint height, jdouble gamma, char* bitmap) {
 
-//@line:127
+//@line:157
 
 		void* bitmapCopy = malloc(width * height * 4);
 		if (!bitmapCopy) return 0;
@@ -111,7 +170,7 @@ JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1createRg
 static inline jlong wrapped_Java_com_badlogicgames_libimagequant_LiqImage__1createRgba__JLjava_nio_ByteBuffer_2IID
 (JNIEnv* env, jclass clazz, jlong attribute, jobject obj_bitmap, jint width, jint height, jdouble gamma, char* bitmap) {
 
-//@line:145
+//@line:175
 
 		liq_image* image = liq_image_create_rgba((liq_attr*)attribute, (const void*)bitmap, width, height, gamma);
 		if (!image) return 0;
@@ -139,7 +198,7 @@ JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1createRg
 JNIEXPORT jobject JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1byteBufferFromPointer(JNIEnv* env, jclass clazz, jlong ptr, jint numBytes) {
 
 
-//@line:159
+//@line:189
 
 		return env->NewDirectByteBuffer((char*)ptr, numBytes);
 	
@@ -149,7 +208,7 @@ JNIEXPORT jobject JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1byteBu
 JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getJniImageLiqImage(JNIEnv* env, jclass clazz, jlong jniImage) {
 
 
-//@line:163
+//@line:193
 
 		return (jlong)((liq_jni_image*)jniImage)->image;
 	
@@ -159,7 +218,7 @@ JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getJniIm
 JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getJniImageData(JNIEnv* env, jclass clazz, jlong jniImage) {
 
 
-//@line:167
+//@line:197
 
 		return (jlong)((liq_jni_image*)jniImage)->data;
 	
@@ -169,7 +228,7 @@ JNIEXPORT jlong JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1getJniIm
 JNIEXPORT void JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1destroy(JNIEnv* env, jclass clazz, jlong image) {
 
 
-//@line:171
+//@line:201
 
 		liq_jni_image* jniImage = (liq_jni_image*)image;
 		liq_image_destroy(jniImage->image);

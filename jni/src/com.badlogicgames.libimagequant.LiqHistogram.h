@@ -9,6 +9,22 @@ extern "C" {
 #endif
 /*
  * Class:     com_badlogicgames_libimagequant_LiqHistogram
+ * Method:    _quantize
+ * Signature: (JJ[J)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqHistogram__1quantize
+  (JNIEnv *, jclass, jlong, jlong, jlongArray);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqHistogram
+ * Method:    _addColor
+ * Signature: (JJBBBBID)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqHistogram__1addColor
+  (JNIEnv *, jclass, jlong, jlong, jbyte, jbyte, jbyte, jbyte, jint, jdouble);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqHistogram
  * Method:    _create
  * Signature: (J)J
  */

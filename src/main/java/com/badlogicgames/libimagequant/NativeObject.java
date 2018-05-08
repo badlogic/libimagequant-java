@@ -5,7 +5,7 @@ public abstract class NativeObject {
 
 	protected NativeObject(long ptr) {
 		this.ptr = ptr;
-		if (ptr == 0) throw new IllegalStateException("Couldn't create " + this.getClass().getSimpleName());
+		if (ptr == 0) throw new IllegalArgumentException("Couldn't create " + this.getClass().getSimpleName() + " wrapper around point with value 0");
 	}
 
 	/** Releases the native memory. Also called in the finalizer. */

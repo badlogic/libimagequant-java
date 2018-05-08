@@ -1,3 +1,4 @@
+
 package com.badlogicgames.libimagequant;
 
 public enum LiqError {
@@ -11,16 +12,25 @@ public enum LiqError {
 	INVALID_POINTER(105),
 	UNSUPPORTED(106);
 
-	private final long code;
+	private static LiqError[] values = LiqError.values();
+	private final int code;
 
-	LiqError(long code) {
+	LiqError (int code) {
 		this.code = code;
 	}
 
-	static LiqError fromCode(long code) {
-		for(LiqError value: LiqError.values()) {
+	public int getCode () {
+		return code;
+	}
+
+	public static void onError (String message, int code) {
+		if (code != 0) throw new RuntimeException(message + ": " + LiqError.fromCode(code));
+	}
+
+	private static LiqError fromCode (int code) {
+		for (LiqError value : values) {
 			if (value.code == code) return value;
 		}
-		return null;
+		throw new IllegalArgumentException("Unknown LiqError code " + code);
 	}
 }

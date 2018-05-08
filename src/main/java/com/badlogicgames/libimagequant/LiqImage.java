@@ -55,16 +55,16 @@ public class LiqImage extends NativeObject {
 	}
 
 	public void setBackground (LiqImage background) {
-		LiqError error = LiqError.fromCode(_setBackgroundImage(getPointer(), background.getPointer()));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't set background: " + error);
+		int code = _setBackgroundImage(getPointer(), background.getPointer());
+		LiqError.onError("Couldn't set background", code);
 	}
 
 	/**
 	 * Sets the importance map. The pixels in the buffer are copied.
 	 */
 	public void setImportanceMap (byte[] buffer) {
-		LiqError error = LiqError.fromCode(_setImportanceMap(getPointer(), buffer, buffer.length));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't set importance map: " + error);
+		int code = _setImportanceMap(getPointer(), buffer, buffer.length);
+		LiqError.onError("Couldn't set importance map", code);
 	}
 
 	public void addFixedColor (float r, float g, float b, float a) {
@@ -72,13 +72,13 @@ public class LiqImage extends NativeObject {
 		if (g < 0 || g > 1) throw new IllegalArgumentException("G must be >= 0 and <= 1");
 		if (b < 0 || b > 1) throw new IllegalArgumentException("B must be >= 0 and <= 1");
 		if (a < 0 || a > 1) throw new IllegalArgumentException("A must be >= 0 and <= 1");
-		LiqError error = LiqError.fromCode(_addFixedColor(getPointer(), (byte)(r / 255), (byte)(g / 255), (byte)(b / 255), (byte)(a / 255)));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't add fixed color: " + error);
+		int code = _addFixedColor(getPointer(), (byte)(r / 255), (byte)(g / 255), (byte)(b / 255), (byte)(a / 255));
+		LiqError.onError("Couldn't add fixed color", code);
 	}
 
 	public void addFixedColor (byte r, byte g, byte b, byte a) {
-		LiqError error = LiqError.fromCode(_addFixedColor(getPointer(), r, g, b, a));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't add fixed color: " + error);
+		int code = _addFixedColor(getPointer(), r, g, b, a);
+		LiqError.onError("Couldn't add fixed color", code);
 	}
 
 	public int getWidth () {
@@ -87,6 +87,18 @@ public class LiqImage extends NativeObject {
 
 	public int getHeight () {
 		return _getHeight(getPointer());
+	}
+
+	public LiqResult quantize() {
+		long[] pointer = new long[1];
+		int code = _quantize(getPointer(), attribute.getPointer(), pointer);
+		LiqError.onError("Couldn't quantize image ", code);
+		return new LiqResult(pointer[0]);
+	}
+
+	public void remap(LiqResult result, byte[] output) {
+		int code = _remap(result.getPointer(), getPointer(), output, output.length);
+		LiqError.onError("Couldn't remap image", code);
 	}
 
 	//@off
@@ -100,6 +112,17 @@ public class LiqImage extends NativeObject {
 		void *data;
 	} liq_jni_image;
 	 */
+
+	private static native int _remap(long result, long image, byte[] buffer, int bufferSize); /*
+		return liq_write_remapped_image((liq_result*)result, (liq_image*)image, buffer, bufferSize);
+	*/
+
+	private static native int _quantize (long image, long attr, long[] pointer); /*
+		liq_result *result = 0;
+		int code = liq_image_quantize((liq_image*)image, (liq_attr*)attr, &result);
+		pointer[0] = (jlong)result;
+		return code;
+	*/
 
 	private static native int _getWidth (long image); /*
 		return liq_image_get_width((liq_image*)image);

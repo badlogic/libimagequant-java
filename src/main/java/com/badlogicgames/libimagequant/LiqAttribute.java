@@ -16,8 +16,8 @@ public class LiqAttribute extends NativeObject {
 	}
 
 	public void setMaxColors (int colors) {
-		LiqError error = LiqError.fromCode(_setMaxColors(getPointer(), colors));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't set max colors: " + error);
+		int code = _setMaxColors(getPointer(), colors);
+		LiqError.onError("Couldn't set max colors", code);
 	}
 
 	public int getMaxColors () {
@@ -25,8 +25,8 @@ public class LiqAttribute extends NativeObject {
 	}
 
 	public void setSpeed (int speed) {
-		LiqError error = LiqError.fromCode(_setSpeed(getPointer(), speed));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't set speed: " + error);
+		int code = _setSpeed(getPointer(), speed);
+		LiqError.onError("Couldn't set speed", code);
 	}
 
 	public int getSpeed () {
@@ -34,8 +34,8 @@ public class LiqAttribute extends NativeObject {
 	}
 
 	public void setMinOpacity (int min) {
-		LiqError error = LiqError.fromCode(_setMinOpacity(getPointer(), min));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't set min. opacity: " + error);
+		int code = _setMinOpacity(getPointer(), min);
+		LiqError.onError("Couldn't set min. opacity", code);
 	}
 
 	public int getMinOpacity () {
@@ -43,8 +43,8 @@ public class LiqAttribute extends NativeObject {
 	}
 
 	public void setMinPosterization (int min) {
-		LiqError error = LiqError.fromCode(_setMinPosterization(getPointer(), min));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't set min. posterization: " + error);
+		int code = _setMinPosterization(getPointer(), min);
+		LiqError.onError("Couldn't set min. posterization", code);
 	}
 
 	public int getMinPosterization () {
@@ -52,8 +52,8 @@ public class LiqAttribute extends NativeObject {
 	}
 
 	public void setQuality (int minQuality, int maxQuality) {
-		LiqError error = LiqError.fromCode(_setQuality(getPointer(), minQuality, maxQuality));
-		if (LiqError.OK != error) throw new IllegalStateException("Couldn't set quality: " + error);
+		int code = _setQuality(getPointer(), minQuality, maxQuality);
+		LiqError.onError("Couldn't set quality", code);
 	}
 
 	public int getMinQuality () {

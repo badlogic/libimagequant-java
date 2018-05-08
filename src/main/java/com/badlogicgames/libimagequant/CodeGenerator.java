@@ -19,7 +19,7 @@ public class CodeGenerator {
 		startProcess("./build.sh --target=macosx", new File("jni"));
 	}
 
-	private static boolean startProcess (String command, File directory) {
+	private static boolean startProcess (String command, final File directory) {
 		try {
 			final Process process = new ProcessBuilder(command.split(" ")).directory(directory).redirectErrorStream(true).start();
 
@@ -45,7 +45,7 @@ public class CodeGenerator {
 							String error = getError(line);
 							int lineNumber = getLineNumber(line) - 1;
 							if (fileName != null && lineNumber >= 0) {
-								FileDescriptor file = new FileDescriptor(fileName);
+								FileDescriptor file = new FileDescriptor(directory.getAbsolutePath() + "/" + fileName);
 								if (file.exists()) {
 									String[] content = file.readString().split("\n");
 									if (lineNumber < content.length) {
@@ -56,11 +56,11 @@ public class CodeGenerator {
 												System.out.flush();
 												if (line.contains("warning")) {
 													System.out.println("(" + file.nameWithoutExtension() + ".java:"
-														+ (javaLineNumber + (lineNumber - i) - 1) + "): " + error + ", original: " + line);
+														+ (javaLineNumber + (lineNumber - i) - 1) + "): " + error + ", original:\n " + line);
 													System.out.flush();
 												} else {
 													System.err.println("(" + file.nameWithoutExtension() + ".java:"
-														+ (javaLineNumber + (lineNumber - i) - 1) + "): " + error + ", original: " + line);
+														+ (javaLineNumber + (lineNumber - i) - 1) + "): " + error + ", original:\n " + line);
 													System.err.flush();
 												}
 												return;
@@ -107,7 +107,7 @@ public class CodeGenerator {
 					return matcher.groupCount() >= 1 ? Integer.parseInt(matcher.group(1)) : -1;
 				}
 			});
-			t.setDaemon(true);
+			// t.setDaemon(true);
 			t.start();
 			process.waitFor();
 			return process.exitValue() == 0;

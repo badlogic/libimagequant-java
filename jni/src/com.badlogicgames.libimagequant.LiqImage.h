@@ -9,6 +9,22 @@ extern "C" {
 #endif
 /*
  * Class:     com_badlogicgames_libimagequant_LiqImage
+ * Method:    _remap
+ * Signature: (JJ[BI)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1remap
+  (JNIEnv *, jclass, jlong, jlong, jbyteArray, jint);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqImage
+ * Method:    _quantize
+ * Signature: (JJ[J)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1quantize
+  (JNIEnv *, jclass, jlong, jlong, jlongArray);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqImage
  * Method:    _getWidth
  * Signature: (J)I
  */
@@ -36,8 +52,16 @@ JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1addFixedC
  * Method:    _setImportanceMap
  * Signature: (J[BI)I
  */
-JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap__J_3BI
   (JNIEnv *, jclass, jlong, jbyteArray, jint);
+
+/*
+ * Class:     com_badlogicgames_libimagequant_LiqImage
+ * Method:    _setImportanceMap
+ * Signature: (JLjava/nio/ByteBuffer;I)I
+ */
+JNIEXPORT jint JNICALL Java_com_badlogicgames_libimagequant_LiqImage__1setImportanceMap__JLjava_nio_ByteBuffer_2I
+  (JNIEnv *, jclass, jlong, jobject, jint);
 
 /*
  * Class:     com_badlogicgames_libimagequant_LiqImage
