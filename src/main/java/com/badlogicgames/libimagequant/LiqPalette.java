@@ -19,6 +19,22 @@ public class LiqPalette {
 		return _getColor(ptr, index);
 	}
 
+	public static byte getR (int color) {
+		return (byte)((color >> 24) & 0xff);
+	}
+
+	public static byte getG (int color) {
+		return (byte)((color >> 16) & 0xff);
+	}
+
+	public static byte getB (int color) {
+		return (byte)((color >> 8) & 0xff);
+	}
+
+	public static byte getA (int color) {
+		return (byte)(color & 0xff);
+	}
+
 	//@off
 	/*JNI
 	#include <libimagequant.h>

@@ -1,23 +1,53 @@
 package com.badlogicgames.libimagequant;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.awt.image.DataBufferByte;
+
+import javax.imageio.ImageIO;
 
 public class LibImageQuantTest {
-	static {
+	public static void main (String[] args) throws IOException {
 		new SharedLibraryLoader().load("imagequant-java");
-	}
 
-	@Test
-	public void testLiqAttribute () {
+		// Read the input image
+		BufferedImage input = ImageIO.read(LibImageQuantTest.class.getResourceAsStream("/input.png"));
+		byte[] pixels = ((DataBufferByte) input.getRaster().getDataBuffer()).getData();
+
+		// Setup libimagequant and quantize the image
 		LiqAttribute attribute = new LiqAttribute();
-		assertNotEquals("Creation returned 0 pointer but didn't throw exception", 0, attribute.getPointer());
-		LiqAttribute copy = new LiqAttribute(attribute);
-		assertNotEquals("Creation returned 0 pointer but didn't throw exception", 0, copy.getPointer());
-		attribute.destroy();
-		assertEquals("Destroy didn't delete the memory", 0, attribute.getPointer());
+		LiqImage image = new LiqImage(attribute, pixels, input.getWidth(), input.getHeight(), 0);
+		LiqResult result = image.quantize();
 
-		copy.setMaxColors(123);
-		assertEquals("Max color setter/getter not working", 123, copy.getMaxColors());
+		// Based on the quantization result, generated an 8-bit indexed image
+		// and retrieve its palette.
+		byte[] quantizedPixels = new byte[input.getWidth() * input.getHeight()];
+		image.remap(result, quantizedPixels);
+		LiqPalette palette = result.getPalette();
+
+		// The resulting 8-bit indexed image and palette could be written out
+		// to an indexed PNG or GIF, but instead we convert it back to 32-bit
+		// RGBA
+		BufferedImage convertedImage = new BufferedImage(input.getWidth(), input.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+		byte[] convertedPixels = ((DataBufferByte) convertedImage.getRaster().getDataBuffer()).getData();
+		int size = input.getWidth() * input.getHeight();
+		for (int i = 0, j = 0; i < size; i++, j+=4) {
+			int index = 0xff & quantizedPixels[i]; // Java's byte is signed
+			int color = palette.getColor(index);
+			convertedPixels[j] = LiqPalette.getA(color);
+			convertedPixels[j + 1] = LiqPalette.getB(color);
+			convertedPixels[j + 2] = LiqPalette.getG(color);
+			convertedPixels[j + 3] = LiqPalette.getR(color);
+		}
+
+		ImageIO.write(convertedImage, "png", new File("output.png"));
+
+		// Good practice to immediately destroy the native resources
+		// but not necessary. If the GC cleans up the Java side object
+		// the native side will be destroyed as well.
+		result.destroy();
+		image.destroy();
+		attribute.destroy();
 	}
 }
