@@ -10,7 +10,7 @@ public class LiqImage extends NativeObject {
 
 	/** Creates a new {@link LiqImage} from the given bitmap. The bitmap is copied to a new native memory area and managed by this
 	 * instance. */
-	protected LiqImage (LiqAttribute attribute, byte[] bitmap, int width, int height, double gamma) {
+	public LiqImage (LiqAttribute attribute, byte[] bitmap, int width, int height, double gamma) {
 		super(createRgba(attribute.getPointer(), bitmap, width, height, gamma));
 		this.attribute = attribute;
 		this.pixels = _byteBufferFromPointer(_getJniImageData(super.getPointer()), width * height * 4);
@@ -20,7 +20,7 @@ public class LiqImage extends NativeObject {
 	/** Creates a new {@link LiqImage} from the given ByteBuffer. The ByteBuffer must be a direct buffer and remain valid until
 	 * this LiqImage is destroyed or collected. No copying of the data of the buffer is performed. The position and limit of the
 	 * buffer are ignored. */
-	protected LiqImage (LiqAttribute attribute, ByteBuffer bitmap, int width, int height, double gamma) {
+	public LiqImage (LiqAttribute attribute, ByteBuffer bitmap, int width, int height, double gamma) {
 		super(createRgba(attribute.getPointer(), bitmap, width, height, gamma));
 		this.attribute = attribute;
 		this.pixels = bitmap;
