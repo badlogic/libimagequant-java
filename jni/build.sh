@@ -110,7 +110,8 @@ if [ "x$TARGET" != 'x' ]; then
     if [ "$BUILD" = "debug" ]; then
         CXX_FLAGS="$CXX_FLAGS -g"
     else
-        CXX_FLAGS="$CXX_FLAGS -O2"
+        CC_FLAGS="$CC_FLAGS -O3"
+        CXX_FLAGS="$CXX_FLAGS -O3"
     fi
 fi
 
