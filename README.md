@@ -25,7 +25,7 @@ compile "com.badlogicgames:libimagequant-java:1.0"
 libimagequant-java is also build on every new commit by [Jenkins](https://libgdx.badlogicgames.com/jenkins/job/libimagequant-java/) and published as a [SNAPSHOT release](https://oss.sonatype.org/content/repositories/snapshots/com/badlogicgames/libimagequant-java/) to SonaType.
 
 ## Usage
-The below code loads a 32-bit RGBA PNG file, quantizes it to 32-bit and then writes it back out to a new file.
+The below code loads a 32-bit RGBA PNG file, quantizes it to 8-bit and then writes it back out to a new file.
 
 ```java
 new SharedLibraryLoader().load("imagequant-java");
