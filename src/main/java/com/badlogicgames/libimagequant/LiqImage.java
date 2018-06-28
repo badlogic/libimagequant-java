@@ -7,6 +7,7 @@ import java.nio.ByteOrder;
 public class LiqImage extends NativeObject {
 	private final LiqAttribute attribute;
 	private final ByteBuffer pixels;
+	private boolean owned = true;
 
 	/** Creates a new {@link LiqImage} from the given bitmap. The bitmap is copied to a new native memory area and managed by this
 	 * instance. */
@@ -85,6 +86,21 @@ public class LiqImage extends NativeObject {
 	public void remap (LiqResult result, byte[] output) {
 		int code = _remap(result.getPointer(), getPointer(), output, output.length);
 		LiqError.onError("Couldn't remap image", code);
+	}
+
+	/** Causes this image to not be freed automatically, for use when some other object owns this image and is responsible for
+	 * freeing it. {@link #destroy()} must not be called after this image is unowned. */
+	public void unown () {
+		owned = false;
+	}
+
+	public void destroy () {
+		if (!owned) throw new IllegalStateException("This image is unowned and must not be destroyed.");
+		super.destroy();
+	}
+
+	protected void finalize () throws Throwable {
+		if (owned) super.finalize();
 	}
 
 	private static long createRgba (long attribute, byte[] bitmap, int width, int height, double gamma) {
