@@ -79,7 +79,7 @@ public class LiqImage extends NativeObject {
 	public LiqResult quantize () {
 		long[] pointer = new long[1];
 		int code = _quantize(getPointer(), attribute.getPointer(), pointer);
-		LiqError.onError("Couldn't quantize image ", code);
+		LiqError.onError("Couldn't quantize image", code);
 		return new LiqResult(pointer[0]);
 	}
 

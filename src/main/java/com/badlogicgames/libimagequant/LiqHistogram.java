@@ -19,14 +19,14 @@ public class LiqHistogram extends NativeObject {
 	/** Adds the {@link LiqImage} to the histogram. */
 	public void addImage (LiqImage image) {
 		int code = _addImage(getPointer(), attribute.getPointer(), image.getPointer());
-		LiqError.onError("Couldn't add image: ", code);
+		LiqError.onError("Couldn't add image", code);
 	}
 
 	/** Adds the colors with their respective counts to this histogram. */
 	public void addColors (LiqHistogramEntry[] entries, double gamma) {
 		for (LiqHistogramEntry entry : entries) {
 			int code = _addColor(getPointer(), attribute.getPointer(), entry.r, entry.g, entry.b, entry.a, entry.count, gamma);
-			LiqError.onError("Couldn't add colors: ", code);
+			LiqError.onError("Couldn't add colors", code);
 		}
 	}
 
