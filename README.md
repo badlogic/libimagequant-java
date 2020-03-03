@@ -3,7 +3,7 @@ libimagequant-java is a JNI wrapper around the C API for [libimagequant](https:/
 
 libimagequant-java is kept intentionally simple, only operating on `byte[]` arrays and direct `ByteBuffer` instances.
 
-libimagequant-java the required native shared library and automatically loads the library compatible with your operating system. No messing around with `-Djava.library.path`. libimagequant-java supports Windows 32- & 64-bit, Linux 32- & 64-bit as well as macOS out of the box.
+The required native shared library is automatically loaded for your operating system. No messing around with `-Djava.library.path`. libimagequant-java supports Windows 32- & 64-bit, Linux 32- & 64-bit as well as macOS out of the box.
 
 ## Installation
 libimagequant-java is published to Maven Central. You can include it in your `pom.xml` as a dependency as follows:
@@ -22,7 +22,7 @@ To include it in your Gradle project, ensure your `build.gradle` file adds the `
 compile "com.badlogicgames:libimagequant-java:1.0"
 ```
 
-libimagequant-java is also build on every new commit by [Jenkins](https://libgdx.badlogicgames.com/jenkins/job/libimagequant-java/) and published as a [SNAPSHOT release](https://oss.sonatype.org/content/repositories/snapshots/com/badlogicgames/libimagequant-java/) to SonaType.
+libimagequant-java is also built on every new commit by [Jenkins](https://libgdx.badlogicgames.com/jenkins/job/libimagequant-java/) and published as a [SNAPSHOT release](https://oss.sonatype.org/content/repositories/snapshots/com/badlogicgames/libimagequant-java/) to SonaType.
 
 ## Usage
 The below code loads a 32-bit RGBA PNG file, quantizes it to 8-bit and then writes it back out to a new file.
