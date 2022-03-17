@@ -1,3 +1,0 @@
-[submodule "jni/libimagequant"]
-	path = jni/libimagequant
-	url = https://github.com/ImageOptim/libimagequant

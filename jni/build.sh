@@ -11,13 +11,13 @@ CXX=g++
 CXX_FLAGS="-c -Wall -msse -mfpmath=sse -DNDEBUG -DUSE_SSE=1 -Wno-unknown-pragmas -fno-math-errno -funroll-loops -fomit-frame-pointer"
 
 HEADERS="-Isrc -Ijni-headers -Ilibimagequant/"
-CC_SOURCES="libimagequant/blur.c libimagequant/kmeans.c libimagequant/libimagequant.c libimagequant/mediancut.c libimagequant/mempool.c libimagequant/nearest.c libimagequant/pam.c"
+# CC_SOURCES="libimagequant/blur.c libimagequant/kmeans.c libimagequant/libimagequant.c libimagequant/mediancut.c libimagequant/mempool.c libimagequant/nearest.c libimagequant/pam.c"
 CXX_SOURCES=`find src -name *.cpp`
 
 STRIP=strip
 
 LINKER_FLAGS="-shared"
-LIBRARIES="-L$BUILD_DIR -lm"
+LIBRARIES="-L$BUILD_DIR -L./ -limagequant_sys -lm"
 
 OUTPUT_DIR="../src/main/resources/"
 OUTPUT_PREFIX="lib"
@@ -124,10 +124,10 @@ mkdir -p $OUTPUT_DIR
 echo "--- Compiling for $TARGET, build type $BUILD"
 
 echo "------ Compiling C sources"
-for f in $CC_SOURCES; do
-    OBJECT_FILE=$BUILD_DIR/`basename $f .c`
-    trace $CC $CC_FLAGS $HEADERS "$f" -o $OBJECT_FILE.o
-done
+#for f in $CC_SOURCES; do
+#    OBJECT_FILE=$BUILD_DIR/`basename $f .c`
+#    trace $CC $CC_FLAGS $HEADERS "$f" -o $OBJECT_FILE.o
+#done
 echo
 
 echo "------ Compiling C++ sources"
