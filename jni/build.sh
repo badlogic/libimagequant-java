@@ -91,7 +91,7 @@ if [ "x$TARGET" != 'x' ]; then
     if [ "$OS" = "linux" ]; then
         CC_FLAGS="$CC_FLAGS -fPIC"
         CXX_FLAGS="$CXX_FLAGS -fPIC"
-        LINKER_FLAGS="-Llibimagequant/target/release -limagequant_sys -lpthread -ldl"
+        LINKER_FLAGS="-Llibimagequant/target/release -limagequant_sys -lpthread -ldl $LINKER_FLAGS"
         echo "int main() {}" > main.c
         CXX_SOURCES="$CXX_SOURCES main.c"
         JNI_MD="linux"
@@ -100,6 +100,8 @@ if [ "x$TARGET" != 'x' ]; then
     if [ "$OS" = "macosx" ]; then
         CC_FLAGS="$CC_FLAGS -fPIC -mmacosx-version-min=10.6"
         CXX_FLAGS="$CXX_FLAGS -fPIC -mmacosx-version-min=10.6"
+        LINKER_FLAGS="-Llibimagequant/target/release -limagequant_sys $LINKER_FLAGS"
+        STRIP="strip -X "
         JNI_MD="mac"
         OUTPUT_SUFFIX=".dylib"
     fi
@@ -139,6 +141,7 @@ LINKER=$CXX
 OBJ_FILES=`find $BUILD_DIR -name *.o`
 OUTPUT_FILE="$OUTPUT_DIR$OUTPUT_PREFIX$OUTPUT_NAME$OUTPUT_SUFFIX"
 trace $LINKER $OBJ_FILES $LIBRARIES $LINKER_FLAGS -o "$OUTPUT_FILE"
+trace STRIP "$OUTPUT_FILE"
 echo
 
 #trace rm -rf $BUILD_DIR
