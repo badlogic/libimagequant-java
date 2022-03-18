@@ -8,3 +8,5 @@ target/
 cmake-build-debug/
 .DS_STORE
 src/main/resources
+jni/libimagequant/
+jni/main.c

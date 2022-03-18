@@ -10,14 +10,13 @@ CC_FLAGS="-c -Wall -msse -mfpmath=sse -DNDEBUG -DUSE_SSE=1 -Wno-unknown-pragmas 
 CXX=g++
 CXX_FLAGS="-c -Wall -msse -mfpmath=sse -DNDEBUG -DUSE_SSE=1 -Wno-unknown-pragmas -fno-math-errno -funroll-loops -fomit-frame-pointer"
 
-HEADERS="-Isrc -Ijni-headers -Ilibimagequant/"
-# CC_SOURCES="libimagequant/blur.c libimagequant/kmeans.c libimagequant/libimagequant.c libimagequant/mediancut.c libimagequant/mempool.c libimagequant/nearest.c libimagequant/pam.c"
+HEADERS="-Isrc -Ijni-headers -Ilibimagequant/imagequant-sys/"
 CXX_SOURCES=`find src -name *.cpp`
 
 STRIP=strip
 
 LINKER_FLAGS="-shared"
-LIBRARIES="-L$BUILD_DIR -L./ -limagequant_sys -lm"
+LIBRARIES="-L$BUILD_DIR -lm"
 
 OUTPUT_DIR="../src/main/resources/"
 OUTPUT_PREFIX="lib"
@@ -31,9 +30,8 @@ Options:
   --build=[release|debug] Specifies the build type. If not set both release
                           and debug versions of the libraries will be built.
   --target=...            Specifies the target to build for. Supported
-                          targets are macosx, linux-x86_64, linux-x86,
-                          windows-x86, and windows-x86_64. If not set the
-                          current host OS determines the targets.
+                          targets are macosx, linux-x86_64, and windows-x86_64.
+                          If not set the current host OS determines the targets.
   --help                  Displays this information and exits.
 EOF
   exit $1
@@ -79,24 +77,23 @@ if [ "x$TARGET" != 'x' ]; then
     fi
 
     if [ "$OS" = "windows" ]; then
-        CC="i686-w64-mingw32-gcc"
+        CC="x86_64-w64-mingw32-gcc"
         CC_FLAGS="$CC_FLAGS -Wno-attributes"
-        CXX="i686-w64-mingw32-g++"
+        CXX="x86_64-w64-mingw32-g++"
         CXX_FLAGS="$CXX_FLAGS -Wno-attributes"
-        LINKER_FLAGS="-Wl,--kill-at -static-libgcc -static-libstdc++ $LINKER_FLAGS"
+        STRIP="x86_64-w64-mingw32-strip"
+        LINKER_FLAGS="-Wl,--kill-at -static-libgcc -static-libstdc++ -Llibimagequant/target/x86_64-pc-windows-gnu/release/ -limagequant_sys -lbcrypt -luserenv -lws2_32 $LINKER_FLAGS"
         JNI_MD="win32"
         OUTPUT_PREFIX=""
-        OUTPUT_SUFFIX=".dll"
-        if [ "$ARCH" = "x86_64" ]; then
-            CC="x86_64-w64-mingw32-gcc"
-            CXX="x86_64-w64-mingw32-g++"
-            STRIP="x86_64-w64-mingw32-strip"
-        fi
+        OUTPUT_SUFFIX=".dll"        
     fi
 
     if [ "$OS" = "linux" ]; then
         CC_FLAGS="$CC_FLAGS -fPIC"
         CXX_FLAGS="$CXX_FLAGS -fPIC"
+        LINKER_FLAGS="-Llibimagequant/target/release -limagequant_sys -lpthread -ldl"
+        echo "int main() {}" > main.c
+        CXX_SOURCES="$CXX_SOURCES main.c"
         JNI_MD="linux"
     fi
 
