@@ -1,7 +1,9 @@
 #!/bin/bash
 set -e
 
-source /root/.cargo/env
+if [[ -f "/root/.cargo/env" ]]; then
+	source /root/.cargo/env
+fi
 rustup target add x86_64-pc-windows-gnu
 rm -rf libimagequant
 git clone https://github.com/ImageOptim/libimagequant

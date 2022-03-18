@@ -69,28 +69,7 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>com.googlecode.maven-download-plugin</groupId>
-				<artifactId>download-maven-plugin</artifactId>
-				<version>1.4.0</version>
-				<executions>
-					<execution>
-						<id>install-binaries</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>wget</goal>
-						</goals>
-						<configuration>
-							<url>https://libgdx.badlogicgames.com/ci/libimagequant-java/binaries/libimagequant-java-binaries.tar.gz</url>
-							<skipCache>true</skipCache>
-							<unpack>true</unpack>
-							<outputDirectory>src/main/resources</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+			</plugin>			
 		</plugins>
 	</build>
 
