@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t libimagequant-docker . && docker run --rm -v "$(pwd)/..:/code" -it libimagequant-docker
+docker build --platform linux/amd64 -t libimagequant-docker . && docker run --platform linux/amd64 --rm -v "$(pwd)/..:/code" -it libimagequant-docker
