@@ -98,8 +98,8 @@ if [ "x$TARGET" != 'x' ]; then
       OUTPUT_SUFFIX=".dylib"
 
       if [ "$ARCH" == "aarch64" ]; then
-        CC_FLAGS="-c -Wall -std=c99 -fPIC -mmacosx-version-min=10.7"
-        CXX_FLAGS="-c -Wall -fPIC -mmacosx-version-min=10.7"
+        CC_FLAGS="$CC_FLAGS -arch arm64 -fPIC -mmacosx-version-min=10.7"
+        CXX_FLAGS="$CXX_FLAGS -arch arm64 -fPIC -mmacosx-version-min=10.7"
         LINKER_FLAGS="$LINKER_FLAGS -arch arm64 -Llibimagequant/target/aarch64-apple-darwin/release -limagequant_sys"        
       else
         CC_FLAGS="$CC_FLAGS -fPIC -arch x86_64 -mmacosx-version-min=10.7"
